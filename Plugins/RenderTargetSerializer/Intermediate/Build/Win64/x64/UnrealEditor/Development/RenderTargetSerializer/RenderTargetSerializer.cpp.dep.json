@@ -1,0 +1,14 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "f:\\unrealengine\\projects\\rtsplugin\\plugins\\rendertargetserializer\\source\\rendertargetserializer\\private\\rendertargetserializer.cpp",
+        "ProvidedModule": "",
+        "PCH": "f:\\unrealengine\\projects\\rtsplugin\\intermediate\\build\\win64\\x64\\rtsplugineditor\\development\\unrealed\\sharedpch.unrealed.project.valapi.cpp20.inclorderoldest.h.pch",
+        "Includes": [
+            "f:\\unrealengine\\projects\\rtsplugin\\plugins\\rendertargetserializer\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\rendertargetserializer\\definitions.rendertargetserializer.h",
+            "f:\\unrealengine\\projects\\rtsplugin\\plugins\\rendertargetserializer\\source\\rendertargetserializer\\public\\rendertargetserializer.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}

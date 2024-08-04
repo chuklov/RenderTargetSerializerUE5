@@ -1,0 +1,14 @@
+/NOLOGO
+/errorReport:prompt
+/MACHINE:x64
+/SUBSYSTEM:WINDOWS
+/DEF
+/NAME:"UnrealEditor-RenderTargetSerializer.dll"
+/IGNORE:4221
+/NODEFAULTLIB
+"F:\UnrealEngine\Projects\RTSPlugin\Intermediate\Build\Win64\x64\RTSPluginEditor\Development\UnrealEd\SharedPCH.UnrealEd.Project.ValApi.Cpp20.InclOrderOldest.h.obj"
+"F:\UnrealEngine\Projects\RTSPlugin\Plugins\RenderTargetSerializer\Intermediate\Build\Win64\x64\UnrealEditor\Development\RenderTargetSerializer\Module.RenderTargetSerializer.cpp.obj"
+"F:\UnrealEngine\Projects\RTSPlugin\Plugins\RenderTargetSerializer\Intermediate\Build\Win64\x64\UnrealEditor\Development\RenderTargetSerializer\RenderTargetSerializer.cpp.obj"
+"F:\UnrealEngine\Projects\RTSPlugin\Plugins\RenderTargetSerializer\Intermediate\Build\Win64\x64\UnrealEditor\Development\RenderTargetSerializer\RenderTargetSerializerBPLibrary.cpp.obj"
+"F:\UnrealEngine\Projects\RTSPlugin\Plugins\RenderTargetSerializer\Intermediate\Build\Win64\x64\UnrealEditor\Development\RenderTargetSerializer\Default.rc2.res"
+/OUT:"F:\UnrealEngine\Projects\RTSPlugin\Plugins\RenderTargetSerializer\Intermediate\Build\Win64\x64\UnrealEditor\Development\RenderTargetSerializer\UnrealEditor-RenderTargetSerializer.lib"

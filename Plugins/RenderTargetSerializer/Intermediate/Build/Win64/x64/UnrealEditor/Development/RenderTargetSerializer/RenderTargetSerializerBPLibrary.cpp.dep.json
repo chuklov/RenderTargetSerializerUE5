@@ -1,0 +1,35 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "f:\\unrealengine\\projects\\rtsplugin\\plugins\\rendertargetserializer\\source\\rendertargetserializer\\private\\rendertargetserializerbplibrary.cpp",
+        "ProvidedModule": "",
+        "PCH": "f:\\unrealengine\\projects\\rtsplugin\\intermediate\\build\\win64\\x64\\rtsplugineditor\\development\\unrealed\\sharedpch.unrealed.project.valapi.cpp20.inclorderoldest.h.pch",
+        "Includes": [
+            "f:\\unrealengine\\projects\\rtsplugin\\plugins\\rendertargetserializer\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\rendertargetserializer\\definitions.rendertargetserializer.h",
+            "f:\\unrealengine\\projects\\rtsplugin\\plugins\\rendertargetserializer\\source\\rendertargetserializer\\public\\rendertargetserializerbplibrary.h",
+            "f:\\unrealengine\\ue_5.4\\engine\\source\\runtime\\engine\\classes\\engine\\texturerendertarget2d.h",
+            "f:\\unrealengine\\ue_5.4\\engine\\source\\runtime\\engine\\classes\\engine\\texturerendertarget.h",
+            "f:\\unrealengine\\ue_5.4\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\engine\\uht\\texturerendertarget.generated.h",
+            "f:\\unrealengine\\ue_5.4\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\engine\\uht\\texturerendertarget2d.generated.h",
+            "f:\\unrealengine\\projects\\rtsplugin\\plugins\\rendertargetserializer\\intermediate\\build\\win64\\unrealeditor\\inc\\rendertargetserializer\\uht\\rendertargetserializerbplibrary.generated.h",
+            "f:\\unrealengine\\projects\\rtsplugin\\plugins\\rendertargetserializer\\source\\rendertargetserializer\\public\\rendertargetserializer.h",
+            "f:\\unrealengine\\ue_5.4\\engine\\source\\runtime\\engine\\public\\rendering\\texture2dresource.h",
+            "f:\\unrealengine\\ue_5.4\\engine\\source\\runtime\\engine\\public\\rendering\\streamabletextureresource.h",
+            "f:\\unrealengine\\ue_5.4\\engine\\source\\runtime\\rendercore\\public\\rendergraphutils.h",
+            "f:\\unrealengine\\ue_5.4\\engine\\source\\runtime\\rendercore\\public\\rendergraphbuilder.h",
+            "f:\\unrealengine\\ue_5.4\\engine\\source\\runtime\\rendercore\\public\\rendergraphblackboard.h",
+            "f:\\unrealengine\\ue_5.4\\engine\\source\\runtime\\core\\public\\misc\\generatedtypename.h",
+            "f:\\unrealengine\\ue_5.4\\engine\\source\\runtime\\rendercore\\public\\rendergraphevent.h",
+            "f:\\unrealengine\\ue_5.4\\engine\\source\\runtime\\rendercore\\public\\rendergraphevent.inl",
+            "f:\\unrealengine\\ue_5.4\\engine\\source\\runtime\\rendercore\\public\\rendergraphpass.h",
+            "f:\\unrealengine\\ue_5.4\\engine\\source\\runtime\\rendercore\\public\\rendergraphparameters.inl",
+            "f:\\unrealengine\\ue_5.4\\engine\\source\\runtime\\rendercore\\public\\rendergraphtrace.h",
+            "f:\\unrealengine\\ue_5.4\\engine\\source\\runtime\\rendercore\\public\\rendergraphvalidation.h",
+            "f:\\unrealengine\\ue_5.4\\engine\\source\\runtime\\core\\public\\experimental\\containers\\robinhoodhashtable.h",
+            "f:\\unrealengine\\ue_5.4\\engine\\source\\runtime\\rendercore\\public\\rendergraphbuilder.inl",
+            "f:\\unrealengine\\ue_5.4\\engine\\source\\runtime\\rendercore\\public\\shaderparameterstruct.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}
