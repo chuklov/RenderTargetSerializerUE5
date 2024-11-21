@@ -7,3 +7,7 @@
 /.vs
 /Binaries
 /Plugins/RenderTargetSerializer/Intermediate
+/Plugins/RenderTargetSerializer/Intermediate/Build
+/Plugins/RenderTargetSerializer/Intermediate
+UpgradeLog.htm
+UpgradeLog2.htm
