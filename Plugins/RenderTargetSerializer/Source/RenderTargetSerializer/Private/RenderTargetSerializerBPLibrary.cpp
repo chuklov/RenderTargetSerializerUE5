@@ -77,6 +77,8 @@ UTexture2D* URenderTargetSerializerBPLibrary::DeserializeRenderTarget(const TArr
         return nullptr;
     }
 
+    Texture2D->UpdateResource();
+
     // Create a texture 2D to store the pixel data (there is no RGB format! weird)
     FTexture2DResource* Texture2DResource = static_cast<FTexture2DResource*>(Texture2D->GetResource());
     if (!Texture2DResource)
@@ -92,17 +94,17 @@ UTexture2D* URenderTargetSerializerBPLibrary::DeserializeRenderTarget(const TArr
     // Copy pixel data into the texture after converting to FColor
     FColor* ColorData = static_cast<FColor*>(Data);
 
-        for (int32 PixelNum = 0; PixelNum < (Width * Height); ++PixelNum)
-        {
-            // Interestingly we don't need to swap R and B despite the BGRA format.
-            uint8 Rgb[3] = {
-                Channels[PixelNum * 3 + 0],
-                Channels[PixelNum * 3 + 1],
-                Channels[PixelNum * 3 + 2]
-            };
-            FColor PixelColor(Rgb[0], Rgb[1], Rgb[2], 255);
-            ColorData[PixelNum] = PixelColor;
-        }
+    for (int32 PixelNum = 0; PixelNum < (Width * Height); ++PixelNum)
+    {
+        // Interestingly we don't need to swap R and B despite the BGRA format.
+        uint8 Rgb[3] = {
+             Channels[PixelNum * 3 + 0],
+             Channels[PixelNum * 3 + 1],
+             Channels[PixelNum * 3 + 2]
+        };
+        FColor PixelColor(Rgb[0], Rgb[1], Rgb[2], 255);
+        ColorData[PixelNum] = PixelColor;
+    }
 
     // Unlock the texture
     Mip.BulkData.Unlock();
