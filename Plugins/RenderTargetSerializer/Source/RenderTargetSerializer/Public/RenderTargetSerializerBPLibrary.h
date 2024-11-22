@@ -20,9 +20,9 @@ class URenderTargetSerializerBPLibrary : public UBlueprintFunctionLibrary
 public:
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "Serialize Render Target", Keywords = "RenderTargetSerializer"), Category = "Render Target Serialization")
-	static TArray<FVector> SerializeRenderTarget(UTextureRenderTarget2D* RenderTarget);
+	static TArray<uint8> SerializeRenderTarget(UTextureRenderTarget2D* RenderTarget);
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "Deserialize Render Target", Keywords = "RenderTargetSerializer"), Category = "Render Target Serialization")
-	static UTexture2D* DeserializeRenderTarget(const TArray<FVector>& PixelVectors, int32 Width, int32 Height);
+	static UTexture2D* DeserializeRenderTarget(const TArray<uint8>& PixelVectors, int32 Width, int32 Height);
 
 };

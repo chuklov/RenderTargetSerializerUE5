@@ -20,13 +20,14 @@ URenderTargetSerializerBPLibrary::URenderTargetSerializerBPLibrary(const FObject
 }
 
 
-TArray<FVector> URenderTargetSerializerBPLibrary::SerializeRenderTarget(UTextureRenderTarget2D* RenderTarget)
+TArray<uint8> URenderTargetSerializerBPLibrary::SerializeRenderTarget(UTextureRenderTarget2D* RenderTarget)
 {
-    TArray<FVector> PixelVectors;
+    // Convert pixel data to array of 8-bit r,b,g
+    TArray<uint8> Channels;
 
     if (!RenderTarget)
     {
-        return PixelVectors;
+        return Channels;
     }
 
     int32 Width = RenderTarget->SizeX;
@@ -35,8 +36,11 @@ TArray<FVector> URenderTargetSerializerBPLibrary::SerializeRenderTarget(UTexture
     TArray<FColor> PixelData;
     PixelData.Init(FColor::Black, Width * Height);
 
+    Channels.Empty(Width * Height * 3);
+
     FRenderTarget* RenderTargetResource = RenderTarget->GameThread_GetRenderTargetResource();
     FReadSurfaceDataFlags ReadPixelFlags;
+    // Ensure no colour space conversion (do we want this? for uint8 we *do* want gamma space.)
     ReadPixelFlags.SetLinearToGamma(false);
     RenderTargetResource->ReadPixels(PixelData, ReadPixelFlags);
 
@@ -44,18 +48,25 @@ TArray<FVector> URenderTargetSerializerBPLibrary::SerializeRenderTarget(UTexture
     {
         for (int32 x = 0; x < Width; ++x)
         {
+            // Convert rgba32f pixel colour to rgb8ui format
             FColor PixelColor = PixelData[y * Width + x];
-            FVector PixelVector(PixelColor.R, PixelColor.G, PixelColor.B);
-            PixelVectors.Add(PixelVector);
+            uint8 Rgb[3] = {
+                PixelColor.R,
+                PixelColor.G,
+                PixelColor.B
+            };
+
+            // Add three channels into the vector
+            Channels.Append(Rgb, sizeof(Rgb) / sizeof(Rgb[0]));
         }
     }
 
-    return PixelVectors;
+    return Channels;
 }
 
-UTexture2D* URenderTargetSerializerBPLibrary::DeserializeRenderTarget(const TArray<FVector>& PixelVectors, int32 Width, int32 Height)
+UTexture2D* URenderTargetSerializerBPLibrary::DeserializeRenderTarget(const TArray<uint8>& Channels, int32 Width, int32 Height)
 {
-    if (Width <= 0 || Height <= 0 || PixelVectors.Num() != Width * Height)
+    if (Width <= 0 || Height <= 0 || Channels.Num() != Width * Height * 3)
     {
         return nullptr;
     }
@@ -66,37 +77,37 @@ UTexture2D* URenderTargetSerializerBPLibrary::DeserializeRenderTarget(const TArr
         return nullptr;
     }
 
+    Texture2D->UpdateResource();
+
+    // Create a texture 2D to store the pixel data (there is no RGB format! weird)
     FTexture2DResource* Texture2DResource = static_cast<FTexture2DResource*>(Texture2D->GetResource());
     if (!Texture2DResource)
     {
         return nullptr;
     }
 
-    ENQUEUE_RENDER_COMMAND(UpdateTextureData)(
-        [Texture2DResource, PixelVectors, Width, Height](FRHICommandListImmediate& RHICmdList)
+    // Lock the texture for writing
+    FTexture2DMipMap& Mip = Texture2D->GetPlatformData()->Mips[0];
+    // This doesn't need READ capabilities but nothing is documented -w-;;
+    void* Data = Mip.BulkData.Lock(LOCK_READ_WRITE);
+
+    // Copy pixel data into the texture after converting to FColor
+    FColor* ColorData = static_cast<FColor*>(Data);
+
+    for (int32 PixelNum = 0; PixelNum < (Width * Height); ++PixelNum)
     {
-        uint32 DestStride;
-        uint8* DestData = (uint8*)RHILockTexture2D(Texture2DResource->GetTexture2DRHI(), 0, RLM_WriteOnly, DestStride, false);
-
-        for (int32 y = 0; y < Height; ++y)
-        {
-            FColor* RowData = (FColor*)(DestData + y * DestStride);
-            for (int32 x = 0; x < Width; ++x)
-            {
-                int32 Index = y * Width + x;
-                FVector PixelVector = PixelVectors[Index];
-                FColor PixelColor(
-                    FMath::Clamp(int32(PixelVector.X), 0, 255),
-                    FMath::Clamp(int32(PixelVector.Y), 0, 255),
-                    FMath::Clamp(int32(PixelVector.Z), 0, 255),
-                    255);
-                RowData[x] = PixelColor;
-            }
-        }
-
-        RHIUnlockTexture2D(Texture2DResource->GetTexture2DRHI(), 0, false);
+        // Interestingly we don't need to swap R and B despite the BGRA format.
+        uint8 Rgb[3] = {
+             Channels[PixelNum * 3 + 0],
+             Channels[PixelNum * 3 + 1],
+             Channels[PixelNum * 3 + 2]
+        };
+        FColor PixelColor(Rgb[0], Rgb[1], Rgb[2], 255);
+        ColorData[PixelNum] = PixelColor;
     }
-        );
+
+    // Unlock the texture
+    Mip.BulkData.Unlock();
 
     Texture2D->UpdateResource();
 
