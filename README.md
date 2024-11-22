@@ -2,10 +2,12 @@
 Render Target Serializer Plugin for Unreal Engine 5.4
 
 Serialize render target into Vector
-![image](https://github.com/chuklov/RenderTargetSerializer/assets/10007866/ec7517d4-8fb9-43df-a1ee-a81f6b14ef6b)
+![image](https://github.com/user-attachments/assets/06de37e1-b9f7-40fd-8e2a-62f1d315d8c8)
+
 
 Deserialize render target from Vector
-![image](https://github.com/chuklov/RenderTargetSerializer/assets/10007866/6071a8f6-d06a-408a-957f-28d198ce366b)
+![image](https://github.com/user-attachments/assets/625470d4-8159-46d3-9265-d6e8a844f958)
+
 
 
 YouTube video: https://www.youtube.com/watch?v=pWuyITTk_yk&lc=UgzGgyrPRtQdBGtfEJh4AaABAg
