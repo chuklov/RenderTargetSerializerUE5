@@ -36,12 +36,12 @@ TArray<uint8> URenderTargetSerializerBPLibrary::SerializeRenderTarget(UTextureRe
     TArray<FColor> PixelData;
     PixelData.Init(FColor::Black, Width * Height);
 
-    Channels.Empty(Width * Height * 3);
+    Channels.Empty(Width * Height * 4);
 
     FRenderTarget* RenderTargetResource = RenderTarget->GameThread_GetRenderTargetResource();
     FReadSurfaceDataFlags ReadPixelFlags;
     // Ensure no colour space conversion (do we want this? for uint8 we *do* want gamma space.)
-    ReadPixelFlags.SetLinearToGamma(false);
+    ReadPixelFlags.SetLinearToGamma(true);
     RenderTargetResource->ReadPixels(PixelData, ReadPixelFlags);
 
     for (int32 y = 0; y < Height; ++y)
@@ -50,14 +50,15 @@ TArray<uint8> URenderTargetSerializerBPLibrary::SerializeRenderTarget(UTextureRe
         {
             // Convert rgba32f pixel colour to rgb8ui format
             FColor PixelColor = PixelData[y * Width + x];
-            uint8 Rgb[3] = {
+            uint8 Rgba[4] = {
                 PixelColor.R,
                 PixelColor.G,
-                PixelColor.B
+                PixelColor.B,
+                PixelColor.A
             };
 
             // Add three channels into the vector
-            Channels.Append(Rgb, sizeof(Rgb) / sizeof(Rgb[0]));
+            Channels.Append(Rgba, sizeof(Rgba) / sizeof(Rgba[0]));
         }
     }
 
@@ -66,7 +67,7 @@ TArray<uint8> URenderTargetSerializerBPLibrary::SerializeRenderTarget(UTextureRe
 
 UTexture2D* URenderTargetSerializerBPLibrary::DeserializeRenderTarget(const TArray<uint8>& Channels, int32 Width, int32 Height)
 {
-    if (Width <= 0 || Height <= 0 || Channels.Num() != Width * Height * 3)
+    if (Width <= 0 || Height <= 0 || Channels.Num() != Width * Height * 4)
     {
         return nullptr;
     }
@@ -97,12 +98,14 @@ UTexture2D* URenderTargetSerializerBPLibrary::DeserializeRenderTarget(const TArr
     for (int32 PixelNum = 0; PixelNum < (Width * Height); ++PixelNum)
     {
         // Interestingly we don't need to swap R and B despite the BGRA format.
-        uint8 Rgb[3] = {
-             Channels[PixelNum * 3 + 0],
-             Channels[PixelNum * 3 + 1],
-             Channels[PixelNum * 3 + 2]
+        uint8 Rgba[4] = {
+            Channels[PixelNum * 4 + 0],
+            Channels[PixelNum * 4 + 1],
+            Channels[PixelNum * 4 + 2],
+            Channels[PixelNum * 4 + 3]
         };
-        FColor PixelColor(Rgb[0], Rgb[1], Rgb[2], 255);
+        // Store pixel data with alpha channel
+        FColor PixelColor(Rgba[0], Rgba[1], Rgba[2], Rgba[3]);
         ColorData[PixelNum] = PixelColor;
     }
 
